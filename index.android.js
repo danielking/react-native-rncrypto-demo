@@ -11,6 +11,11 @@ import React, {
   View
 } from 'react-native';
 
+import rncrypto from 'react-native-rncrypto';
+rncrypto.randomBytes(32, function() {
+  console.log(arguments);
+});
+
 class RNCryptoDemo extends Component {
   render() {
     return (
