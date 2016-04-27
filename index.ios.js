@@ -12,14 +12,36 @@ import React, {
   View
 } from 'react-native';
 
+import { Buffer } from 'buffer';
+
 import rncrypto from 'react-native-rncrypto';
+
 rncrypto.randomBytes().then(function(bytes) {
-  console.log(bytes);
+  console.log('random bytes:', bytes.toString('base64'));;
 });
-// rncrypto.randomBytes(32, function() {
-//   console.log(arguments);
-// });
-//
+
+var startedAt = new Date();
+var loop = function(count) {
+  rncrypto.ecc.generateKeys().then(function(keys) {
+    // console.log('private key:', keys.privateKey.toString('base64'));
+    // console.log('public key:', keys.publicKey.toString('base64'));
+    rncrypto.ecc.encrypt(new Buffer('世界你好!', 'utf-8'), keys.publicKey).then(function(cipher) {
+      // console.log('cipher:', cipher.toString('base64'));
+      rncrypto.ecc.decrypt(cipher, keys.privateKey).then(function(plain) {
+        // console.log('plain(base64):', plain.toString('base64'));
+        // console.log('plain(utf-8):', plain.toString('utf-8'));
+        if(count != 0) setTimeout(loop.bind(null, --count), 0);
+        else {
+          console.log('finished!');
+          console.log(new Date() - startedAt);
+        }
+      });
+    });
+  });
+};
+
+loop(100);
+
 class RNCryptoDemo extends Component {
   render() {
     return (
