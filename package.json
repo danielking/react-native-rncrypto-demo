@@ -9,6 +9,6 @@
     "buffer": "^4.6.0",
     "react": "^0.14.8",
     "react-native": "^0.24.1",
-    "react-native-rncrypto": "file:../RNCrypto"
+    "react-native-rncrypto": "git://github.com/danielking/react-native-rncrypto.git#lib"
   }
 }
